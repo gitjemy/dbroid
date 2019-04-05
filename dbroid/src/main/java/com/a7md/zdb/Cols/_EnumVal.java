@@ -1,14 +1,17 @@
-package com.a7md.zdb.ZCOL;
+package com.a7md.zdb.Cols;
+
+import android.database.Cursor;
 
 import com.a7md.zdb.Query.ZQ.Equal;
+import com.a7md.zdb.ZCOL.CreateTable;
+import com.a7md.zdb.ZCOL.Key;
 import com.a7md.zdb.ZSqlRow;
 import com.a7md.zdb.helpers.Link;
 import com.a7md.zdb.properties.WritableProperty;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class _EnumVal<E extends ZSqlRow, enm extends Enum<enm>> extends SqlCol<E, enm> {
+public class _EnumVal<E extends ZSqlRow, enm extends Enum<enm>> extends ACol<E, enm> {
 
     private final Class<enm> mclass;
 
@@ -29,8 +32,8 @@ public class _EnumVal<E extends ZSqlRow, enm extends Enum<enm>> extends SqlCol<E
     }
 
     @Override
-    public enm get(ResultSet resultSet) throws SQLException {
-        return enm.valueOf(mclass, resultSet.getString(name));
+    public enm get(Cursor resultSet) throws SQLException {
+        return enm.valueOf(mclass, resultSet.getString(resultSet.getColumnIndex(name)));
     }
 
     @Override

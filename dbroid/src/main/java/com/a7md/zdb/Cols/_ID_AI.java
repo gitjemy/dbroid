@@ -1,35 +1,25 @@
-package com.a7md.zdb.ZCOL;
+package com.a7md.zdb.Cols;
+
+import android.database.Cursor;
 
 import com.a7md.zdb.Query.ZQ.Equal;
 import com.a7md.zdb.Query.ZQ.NotEqual;
-import com.a7md.zdb.Writer;
+import com.a7md.zdb.ZCOL.CreateTable;
 import com.a7md.zdb.ZSqlRow;
 import com.a7md.zdb.helpers.Link;
 import com.a7md.zdb.helpers.MysqlHelper;
 import com.a7md.zdb.properties.WritableProperty;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Function;
 
-public class _ID_AI<E extends ZSqlRow> extends SqlCol<E, Integer> {
+public class _ID_AI<E extends ZSqlRow> extends ACol<E, Integer> {
 
     public _ID_AI() {
         this("id");
     }
 
     public _ID_AI(String title) {
-        super(title, new WritableProperty<>("المعرف", new Function<E, Integer>() {
-            @Override
-            public Integer apply(E e) {
-                return e.getId();
-            }
-        }, new Writer<E, Integer>() {
-            @Override
-            public void set(E e, Integer integer) {
-                e.setId(integer);
-            }
-        }));
+        super(title, new WritableProperty<>("المعرف", E::getId, E::setId));
     }
 
     @Override
@@ -41,7 +31,6 @@ public class _ID_AI<E extends ZSqlRow> extends SqlCol<E, Integer> {
         return new NotEqual(this, val);
     }
 
-
     @Override
     protected void create(CreateTable CreateTable, Link link) {
         if (link instanceof MysqlHelper) {
@@ -52,9 +41,9 @@ public class _ID_AI<E extends ZSqlRow> extends SqlCol<E, Integer> {
         }
     }
 
-    @Override
-    final public Integer get(ResultSet resultSet) throws SQLException {
 
-        return resultSet.getInt(name);
+    @Override
+    final public Integer get(Cursor resultSet) throws SQLException {
+        return resultSet.getInt(resultSet.getColumnIndex(name));
     }
 }

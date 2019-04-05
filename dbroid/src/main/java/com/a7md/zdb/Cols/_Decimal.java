@@ -1,17 +1,19 @@
-package com.a7md.zdb.ZCOL;
+package com.a7md.zdb.Cols;
+
+import android.database.Cursor;
 
 import com.a7md.zdb.Query.ZQ.Equal;
 import com.a7md.zdb.Query.ZQ.GreaterThan;
 import com.a7md.zdb.Query.ZQ.LessThan;
+import com.a7md.zdb.ZCOL.CreateTable;
 import com.a7md.zdb.ZSqlRow;
 import com.a7md.zdb.helpers.Link;
 import com.a7md.zdb.properties.WritableProperty;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class _Decimal<E extends ZSqlRow> extends SqlCol<E, BigDecimal> {
+public class _Decimal<E extends ZSqlRow> extends ACol<E, BigDecimal> {
 
     public _Decimal(String name, WritableProperty<E, BigDecimal> property) {
         super(name, property);
@@ -36,8 +38,8 @@ public class _Decimal<E extends ZSqlRow> extends SqlCol<E, BigDecimal> {
     }
 
     @Override
-    public BigDecimal get(ResultSet resultSet) throws SQLException {
-        String string = resultSet.getString(name);
+    public BigDecimal get(Cursor resultSet) throws SQLException {
+        String string = resultSet.getString(resultSet.getColumnIndex(name));
         if (string != null) {
             return new BigDecimal(string);
         } else {

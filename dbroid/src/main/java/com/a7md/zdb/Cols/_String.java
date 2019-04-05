@@ -1,15 +1,17 @@
-package com.a7md.zdb.ZCOL;
+package com.a7md.zdb.Cols;
+
+import android.database.Cursor;
 
 import com.a7md.zdb.Query.ZQ.Equal;
 import com.a7md.zdb.Query.ZQ.Like;
+import com.a7md.zdb.ZCOL.CreateTable;
 import com.a7md.zdb.ZSqlRow;
 import com.a7md.zdb.helpers.Link;
 import com.a7md.zdb.properties.WritableProperty;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class _String<E extends ZSqlRow> extends SqlCol<E, String> {
+public class _String<E extends ZSqlRow> extends ACol<E, String> {
     public final short Size;
 
     public _String(String name, int Size, boolean not_null, WritableProperty<E, String> property) {
@@ -24,8 +26,8 @@ public class _String<E extends ZSqlRow> extends SqlCol<E, String> {
 
 
     @Override
-    public String get(ResultSet resultSet) throws SQLException {
-        return resultSet.getString(name);
+    public String get(Cursor resultSet) throws SQLException {
+        return resultSet.getString(resultSet.getColumnIndex(name));
     }
 
     @Override
